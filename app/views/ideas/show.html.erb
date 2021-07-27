@@ -1,0 +1,60 @@
+<br>
+<h1><%= @idea.title %></h1>
+<p><%= @idea.description %></p>
+<div>
+      By: <%= @idea.user&.full_name || "Deleted" %>
+</div>
+<p>Posted <%= distance_of_time_in_words(@idea.created_at, Time.now + 1.minutes) %> ago</p>
+
+<% if can? :crud, @idea %>
+      <%= link_to "Edit", edit_idea_path(@idea) %>
+<% end %>
+
+<% if can? :crud, @idea %>
+      <%= button_to "Delete", idea_path(@idea), method: :delete, data: {confirm: "Are you sure?"} %>
+<% end %>
+
+<br>
+<h2> Write a Review </h2>
+<%= form_with(model:[@idea, @review], local:true) do |f| %>
+      <% if @review.errors.full_messages.each do |msg| %>
+            <ul>
+                  <li> <%= msg %> </li>
+            <ul>
+      <% end %>
+<% end %>
+<div>
+      <%= f.text_area(:body, cols: 50, rows: 5, placeholder: "What's on your mind?", class: 'review-form') %>
+</div>
+<%= f.submit "Submit" %>
+<% end %>
+
+<br/>
+<br/>
+
+<h2>Reviews</h2>
+<br/>
+<% @reviews.each do |review| %>
+      <%= review.body %>
+      <br/>
+      <p>
+      Reviewed by:
+      <%= review.user&.full_name || "Deleted" %>
+      </p>
+      <p>
+      Reviewed: <%= distance_of_time_in_words(review.created_at, Time.now + 1.minutes) %> ago 
+      </p>
+
+      <% if can? :crud, review %>
+            <%= button_to(
+                        "Delete",
+                        idea_review_path(@idea, review),
+                        method: :delete,
+                        data: {
+                              confirm: "Are you sure?"
+                        }, 
+                        class: "some-css-class")
+            %>
+      <% end %>
+      <hr/>
+<% end %>

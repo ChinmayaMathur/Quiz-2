@@ -9,3 +9,12 @@ import "channels"
 
 Rails.start()
 ActiveStorage.start()
+
+import "bootstrap";
+import '../stylesheets/application'
+//import '../packs/question'
+
+console.log("Hello from app/javascript/packs/application.js")
+
+//using webpack to compile all of our assets 
+
