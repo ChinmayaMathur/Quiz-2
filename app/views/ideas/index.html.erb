@@ -1,0 +1,25 @@
+<br/>
+<section>
+<% @ideas.each do |idea| %>
+      <h1><%= link_to idea.title, idea_path(idea) %></h1>
+      <p><%= idea.description %></p>
+      <div class="box">
+            <div>
+                  By: <%= idea.user&.full_name || "Deleted" %>
+      
+                  <% @like = idea.likes.find_by(user: current_user) %>
+                  <small>
+                  <% if @like.present? %>
+                        <%= button_to 'Liked', like_path(@like), method: :delete %>
+                  <% else %> 
+                        <%= button_to 'Like', idea_likes_path(idea), method: :post %>
+                  <% end %>
+                  </small>
+            </div>
+            <div>
+                  Likes: <%= idea.likes.count %>
+            </div>
+      </div>
+      <hr/>
+<% end %>
+</section>

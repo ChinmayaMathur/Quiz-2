@@ -11,6 +11,32 @@
   </head>
 
   <body>
+  <body>
+    <nav class="tab">
+    <div>
+    <img class="image" src="https://images.freeimages.com/images/small-previews/e67/bright-idea-1191075.jpg">
+    <h2><b>Idea Factory</b></h2>
+    </div>
+    
+    <div>
+      <% if user_signed_in? %>
+          <h3>Hello <%= current_user.full_name %>!</h3> 
+          <%= button_to 'Logout', sessions_path, method: :delete, data:{confirm: 'Are you sure you want to logout?'} %>
+      <% else %>
+          <%= link_to 'Login', new_sessions_path %> |
+          <%= link_to 'Sign Up', new_user_path %>
+      <% end %>
+      <p>
+        <%= link_to 'Home', ideas_path %>
+        |
+        <%=  link_to 'New Idea', new_idea_path %>
+      </p>
+    </div>
+    </nav>
+    <div>
+        <%= render 'layouts/alerts' %>
+    </div>
+    <hr/>
     <%= yield %>
   </body>
 </html>
